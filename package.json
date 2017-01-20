@@ -1,0 +1,19 @@
+{
+  "name": "myapp",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "sha256": "~0.2.0",
+    "body-parser": "^1.7.0",
+        "ejs": "^1.0.0",
+        "express": "^4.8.7",
+        "express-session": "^1.7.6"
+  }
+}

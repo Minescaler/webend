@@ -1,0 +1,189 @@
+/* CSS declarations go here */
+@font-face {
+    font-family: 'minecraftFont';
+    src: url('../font/Minecrafter.Reg.ttf');
+}
+
+p
+{
+	font-family: 'minecraftFont';
+}
+
+.hvr-bounce-in {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+}
+.hvr-bounce-in:hover, .hvr-bounce-in:focus, .hvr-bounce-in:active {
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+  -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+  transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+  z-index: 2;
+}
+
+.centerText
+{
+	text-align: center;
+	vertical-align: middle;
+	line-height: 300%;
+}
+
+.headerButtonColumn
+{
+	flex: 1;
+	box-sizing: border-box;
+}
+
+#wholeSiteDiv, #headerDiv, #footerDiv, #mainContentDiv, #headerButtonsDiv, #contentTextDiv
+{
+	border: solid 1px #ccc;
+}
+
+#wholeSiteDiv
+{
+	padding: 5px;
+	width: 80%;
+	margin: 20px auto;
+}
+
+#headerDiv
+{
+	height: 15%;
+	padding: 0px 15px;
+}
+
+#headerButtonsDiv
+{
+	width: 50%;
+	height:60%;
+	margin: 1.5% auto;
+	display: flex;
+}
+
+#mainContentDiv
+{
+	height: 70%;
+	padding: 0 15px;
+}
+
+#contentTextDiv
+{
+	width:90%;
+	height:90%;
+	margin: 1.5% auto;
+}
+
+#footerDiv
+{
+	clear: both;
+	padding: 0 15px;
+	height: 5%;
+}
+
+#headerButtonFrontpageDiv
+{
+	order: 1;
+	height:94%;
+}
+
+#headerButtonOfferDiv
+{
+	order: 2;
+	height:98%;
+}
+
+#headerButtonRegisterAndAccountDiv
+{
+	order: 3;
+	height:100%;
+}
+
+#headerButtonFaqDiv
+{
+	order: 4;
+	height:96%;
+}
+
+#headerButtonLoginLogoutDiv
+{
+	order: 5;
+	height:94%;
+}
+
+
+
+
+#headerButtonFrontpageDiv
+{
+	background: #5A55CC;
+}
+
+#headerButtonOfferDiv
+{
+	background: #2B25C9;
+}
+
+#headerButtonRegisterAndAccountDiv
+{
+	background: #14C014;
+}
+
+#headerButtonFaqDiv
+{
+	background: #2B25C9;
+}
+
+#headerButtonLoginLogoutDiv
+{
+	background: #5A55CC;
+}
+
+body 
+{
+    width:100%;
+    height:100%;
+    background-image:url('../images/background.png');
+    position:fixed;
+}
+
+.content {
+    width: 70.3%;
+    height: 62.7%;
+    border:2px solid;
+    border-radius:20px;
+    position: fixed;
+    z-index:10;
+    background-color: rgba(168, 235, 255, 0.2);
+}
+
+.bluredBackground {
+	background-image:url('../images/background.png');
+    width:200%;
+    height:200%;
+    display:block;    
+    z-index:1;
+    position:absolute;
+    top:-33%;
+    left:-23%;
+    padding-left:20%;
+    padding-top:20%;
+    -webkit-filter: blur(3px);
+}
+
+.mask {
+    width: 70.3%;
+    height: 62.7%;
+    border:2px solid;
+    border-radius:20px;
+    position: fixed;
+    z-index:-1;
+    overflow:hidden;
+}

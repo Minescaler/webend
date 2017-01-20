@@ -1,0 +1,31 @@
+body
+{
+	background: #FF512F; /* fallback for old browsers */
+	background: -webkit-linear-gradient(#3B548F , #112B65, #002809, #190C00); /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(#3B548F , #112B65, #003800, #462000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#headerButtonFrontpageDiv
+{
+	background: #17444C;
+}
+
+#headerButtonOfferDiv
+{
+	background: #082E36;
+}
+
+#headerButtonRegisterAndAccountDiv
+{
+	background: #097909;
+}
+
+#headerButtonFaqDiv
+{
+	background: #082E36;
+}
+
+#headerButtonLoginLogoutDiv
+{
+	background: #17444C;
+}
