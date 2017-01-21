@@ -23,7 +23,7 @@ window.onload = function()
 	
 	function loadRegisterAccount() 
 	{
-		document.getElementById("iframeDiv").src='html/register.html';
+		document.getElementById("iframeDiv").src='html/register.html';//register
 	}
 	
 	function loadFaq() 
