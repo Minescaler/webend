@@ -1,5 +1,27 @@
 window.onload = function()
 {
+	function loadMenu(link) {
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		 document.getElementById("contentDiv").innerHTML = this.responseText;
+		 loadBills(); // DO it allways. Because YOLO.
+		}
+	  };
+	  xhttp.open("GET", link, true);
+	  xhttp.send();
+	} 
+	
+	function loadBills() {
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		 document.getElementById("bills").innerHTML = this.responseText;
+		}
+	  };
+	  xhttp.open("GET", "getBills", true);
+	  xhttp.send();
+	} 
 	
 	document.getElementById("headerButtonFrontpageDiv").onclick = function() {loadFrontpage()};
 	
@@ -13,26 +35,26 @@ window.onload = function()
 
 	function loadFrontpage() 
 	{
-		document.getElementById("iframeDiv").src='html/frontpage.html';
+		loadMenu('views/frontpage.html');
 	}
 	
 	function loadOffer() 
 	{
-		document.getElementById("iframeDiv").src='html/offer.html';
+		loadMenu('views/offer.html');
 	}
 	
 	function loadRegisterAccount() 
 	{
-		document.getElementById("iframeDiv").src='html/register.html';//register
+		loadMenu('registerOrAccount');//'views/register.html';//register
 	}
 	
 	function loadFaq() 
 	{
-		document.getElementById("iframeDiv").src='html/faq.html';
+		loadMenu('views/faq.html');
 	}
 	
 	function loadLoginLogout() 
 	{
-		document.getElementById("iframeDiv").src='html/login.html';
+		loadMenu('views/login.html');
 	}
 };

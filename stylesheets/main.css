@@ -33,7 +33,7 @@ p
 {
 	text-align: center;
 	vertical-align: middle;
-	line-height: 300%;
+	line-height: 100%;
 }
 
 .headerButtonColumn
@@ -42,10 +42,11 @@ p
 	box-sizing: border-box;
 }
 
+/*
 #wholeSiteDiv, #headerDiv, #footerDiv, #mainContentDiv, #headerButtonsDiv, #contentTextDiv
 {
 	border: solid 1px #ccc;
-}
+}*/
 
 #wholeSiteDiv
 {
@@ -56,16 +57,52 @@ p
 
 #headerDiv
 {
-	height: 15%;
+	height: 101px;
 	padding: 0px 15px;
+	/*min-height: 80px;*/
+	background-image: url("//hydra-media.cursecdn.com/minecraft.gamepedia.com/2/2c/Header-background-altsearch.png");
+}
+
+.padhead {
+    height: 32px;
 }
 
 #headerButtonsDiv
 {
-	width: 50%;
-	height:60%;
+	width: 550px;
 	margin: 1.5% auto;
 	display: flex;
+	background-image: url("../images/tabs3.png");
+    background-size: 100% auto;
+	padding-left: 15px;
+	height: 50px;
+}
+
+#headerButtonsDiv  > div
+{
+	margin-top: 10px;
+	padding: 0 15px 0 15px;
+	
+}
+
+.logoutbut > input
+{
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    box-sizing: border-box;
+    flex: 1 1 0;
+    font-family: "minecraftFont";
+    font-size: 16px;
+    line-height: 100%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#headerButtonsDiv  > form
+{
+	margin-top: 10px;
+	padding: 0 15px 0 15px;
+	margin-top: 25px;
 }
 
 #mainContentDiv
@@ -123,27 +160,27 @@ p
 
 #headerButtonFrontpageDiv
 {
-	background: #5A55CC;
+	
 }
 
 #headerButtonOfferDiv
 {
-	background: #2B25C9;
+	
 }
 
 #headerButtonRegisterAndAccountDiv
 {
-	background: #14C014;
+	
 }
 
 #headerButtonFaqDiv
 {
-	background: #2B25C9;
+	
 }
 
 #headerButtonLoginLogoutDiv
 {
-	background: #5A55CC;
+	
 }
 
 body 
@@ -152,6 +189,8 @@ body
     height:100%;
     background-image:url('../images/background.png');
     position:fixed;
+	margin: 0;
+    padding: 0;
 }
 
 .content {

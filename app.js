@@ -11,6 +11,7 @@ connection.connect(function(err) {
   // connected! (unless `err` is set)
 });
 
+let ejs = require('ejs');
 var session = require('express-session');
 var express = require('express')
 sha256 = require('js-sha256');
@@ -18,31 +19,70 @@ var app = express()
 app.use(bodyparser.urlencoded({
         extended: true
     }));
+var mu2 = require('mu2');
+mu2.root = __dirname + '/views';
 app.use(express.static(__dirname + "/"));
 
 app.use(session({secret: 'The Ultimate Secret-123.12::'}));
 var sess;
 
+function RenderAll(req, res, file)
+{
+  sess=req.session;
+  var loggedIn = false;
+  if(sess.firstname)
+	loggedIn = true;
+  var htmlStream = mu2.compileAndRender(file, { 
+		loggedIn:loggedIn, firstname:sess.firstname, 
+		lastname:sess.lastname, email:sess.email }); 
+  htmlStream.pipe(res);
+}
+
 app.get('/', function (req, res) {
   sess=req.session;
   if(sess.firstname)
-    res.sendFile('/home/ubuntu/myapp/loggedin.html');
+    RenderAll(req, res,__dirname + '/views/loggedin.html');
   else
-    res.sendFile('/home/ubuntu/myapp/main.html');
-/*  res.write('<form method="post" action="user/">	  <input type="text" name="email" placeholder="email"/>	  <input type="password" name="pw" placeholder="password"/>	  <input type="submit" value="login"/>	</form>');
-  res.write('<form method="post" action="register/">');
-  res.write('<input type="text" name="firstname" placeholder="Firstname"/>');
-  res.write('<input type="text" name="lastname" placeholder="Lastname"/>');
-  res.write('<input type="text" name="email" placeholder="E-Mail"/>');
-  res.write('<input type="text" name="password" placeholder="Password"/>');
-  res.write('<input type="submit" value="Register" />');
-  res.write('</form>');*/
+    RenderAll(req, res,__dirname + '/views/main.html');
+})
+
+app.get('/registerOrAccount', function (req, res) {
+  sess=req.session;
+  if(sess.firstname)
+    RenderAll(req, res,__dirname + '/views/account.html');
+  else
+    RenderAll(req, res,__dirname + '/views/register.html');
+})
+
+app.get('/getBills', function (req, res) {
+  sess=req.session;
   if(sess.firstname)
   {
-    //res.write('<form method="post" action="deleteuser/">');
-    //res.write('<input type="submit" value="Account wegmachen"/></form>');
+	connection.query("SELECT ispayed, amount, DATE_FORMAT(timestamp, '%d.%m.%Y %H:%i Uhr') as timestamp from billings where userid = ?", [sess.userid], function(err, rows, fields) {
+    if (!err)
+	{
+	  res.write('<ul>');
+      for(var i = 0; i < rows.length; i++)
+      {
+		res.write('<li>');
+		if(rows[i].ispayed == 0)
+			res.write('<strong>');
+		res.write(rows[i].amount + "&euro; erstellt am " + rows[i].timestamp);
+		if(rows[i].ispayed == 0)
+			res.write(' noch nicht bezahlt</strong>');
+        res.write('</li>');
+      }
+	  res.write('</ul>');
+	}
+    else
+      console.log('Error while performing Query.');
+	res.end();
+  });
   }
-  //res.send();
+  else
+  {
+    res.end();
+  }
 })
 
 app.listen(8080, function () {
@@ -53,7 +93,7 @@ app.post('/register/', function (req, res) {
   sess=req.session;
   if(sess.firstname)
   {
-    res.send('Dude! You have a accound already. You are even logged in! Holyshit!');
+    res.send('You already have an account.');
     return;
   }
 
@@ -67,15 +107,16 @@ app.post('/register/', function (req, res) {
   {
     if (!err)
     {
-      res.send('Welcome to the BLOCK World. 2edgy5me <a href="/">Get me Back</a>');
       sess.firstname = firstname;
       sess.lastname  = lastname;
       sess.password  = password;
       sess.email     = email;
       // START MINECRAFT SERVER HERE!!!!!!!
+	  // res.send('Welcome to the BLOCK World, 2edgy4me.');
+	  res.redirect("/");
     }
     else
-      res.send('You are not cool eneugh! No, just joking. We have some serious problems up here dude... come again later. ok?' + err);
+      res.send('You are not cool eneugh! No, just kidding. We have some serious problems up here dude... come again later. ok?' + err);
   });
 })
 
@@ -100,10 +141,10 @@ app.post('/user/', function (req, res) {
         sess.password  = rows[0].password;
         sess.email     = rows[0].email;
         sess.userid    = rows[0].userid;
-        res.send('Hi ' + sess.firstname);
+        res.redirect("/");
       }
       else
-        res.send('Y U SO WRON!!! Y U WRON PASS? OHR EFEN EMAL!');
+        res.send('Wrong E-Mail or Password.');
     else
       console.log('Error while performing Query.');
   });
@@ -113,19 +154,16 @@ app.post('/logout/', function (req, res) {
   sess=req.session;
   if(sess.firstname)
   {
-        req.session.destroy(function(err) {
-          if(err) {
-            console.log(err);
-          } else {
-            res.redirect('/');
-          }
-        });
-        res.redirect('/');
-    
+	req.session.destroy(function(err) {
+	  if(err) {
+		console.log(err);
+	  }
+	  res.redirect('/');
+	});
   }
   else
   {
-    res.send('Du bist schon angemeldet!');
+    res.send('You are already logged in!');
   }
 })
 
@@ -144,15 +182,14 @@ app.post('/deleteuser/', function (req, res) {
             res.redirect('/');
           }
         });
-        res.send('Account deleted');
-	
-	// KILL MINECRAFT SERVER HERE!!!
+		// KILL MINECRAFT SERVER HERE!!!
+        res.redirect('/');
       }
     });
   }
   else
   {
-    res.send('You are not logged in dude');
+    res.send('You are not logged in dude.');
   }  
 })
 

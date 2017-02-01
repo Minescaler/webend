@@ -7,8 +7,8 @@
 </head>
 
 <body>
-  	<div id="wholeSiteDiv">
-		<div id="headerDiv">			
+		<div id="headerDiv">	
+			<div class="padhead"></div>				
 			<div id="headerButtonsDiv">
 				<div class="hvr-bounce-in headerButtonColumn centerText" id="headerButtonFrontpageDiv">
 					<p>Startseite</p>
@@ -22,13 +22,14 @@
 				<div class="hvr-bounce-in headerButtonColumn centerText" id="headerButtonFaqDiv">
 					<p>FAQ</p>
 				</div>			
-				<form METHOD="POST" action="/logout/">
-				<div class="hvr-bounce-in headerButtonColumn centerText" onClick="javascript:this.form.submit();">
-					<p>Logout</p>
-				</div>
+				<form class="hvr-bounce-in headerButtonColumn centerText logoutbut" METHOD="POST" action="/logout/">
+					<input class="hvr-bounce-in headerButtonColumn centerText" type="submit" value="Logout" />
 				</form>
 			</div>			
 		</div>
+
+  	<div id="wholeSiteDiv">
+
 		
 		<div id="mainContentDiv">
 			<div id="contentTextDiv">
@@ -36,7 +37,7 @@
 					<div class="bluredBackground"></div>
 				</div>
 				<div class="content" id="contentDiv">
-					<iframe src="html/frontpage.html" height="100%" width="100%" frameborder="0" id="iframeDiv"></iframe>
+					<iframe src="views/frontpage.html" height="100%" width="100%" frameborder="0" id="iframeDiv"></iframe>
 				</div>
 			</div>	
 		</div>
