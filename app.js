@@ -1,11 +1,14 @@
 var bodyparser = require("body-parser");
 var mysql      = require('mysql');
-var connection = mysql.createConnection({ 
-  host     : 'localhost', 
-  user     : 'mcuser', 
+var connection = mysql.createConnection({
+  host     : 'webend-db',
+  user     : 'mcuser',
   password : 'SwagDatYolo1337',
   database : 'minecraft'
 });
+
+var internaldatadir="/data";
+var externaldatadir="/swarm/volumes/data/"
 
 connection.connect(function(err) {
   // connected! (unless `err` is set)
@@ -32,9 +35,9 @@ function RenderAll(req, res, file)
   var loggedIn = false;
   if(sess.firstname)
 	loggedIn = true;
-  var htmlStream = mu2.compileAndRender(file, { 
-		loggedIn:loggedIn, firstname:sess.firstname, 
-		lastname:sess.lastname, email:sess.email }); 
+  var htmlStream = mu2.compileAndRender(file, {
+		loggedIn:loggedIn, firstname:sess.firstname,
+		lastname:sess.lastname, email:sess.email });
   htmlStream.pipe(res);
 }
 
@@ -111,7 +114,17 @@ app.post('/register/', function (req, res) {
       sess.lastname  = lastname;
       sess.password  = password;
       sess.email     = email;
-      // START MINECRAFT SERVER HERE!!!!!!!
+      function run_cmd(cmd, args, callBack ) {
+	    var spawn = require('child_process').spawn;
+	    var child = spawn(cmd, args);
+	    var resp = "";
+
+	    child.stdout.on('data', function (buffer) { resp += buffer.toString() });
+	    child.stdout.on('end', function() { callBack (resp) });
+	}
+    run_cmd("mkdir", [internaldatadir + "/minecraft-" + sha256(sess.email)]);
+    run_cmd("chown", ["10000" , internaldatadir + "/minecraft-" + sha256(sess.email)]);
+	run_cmd("docker", ["service", "create", "-P", "--name", "minecraft-" + sha256(sess.email) , "-e", "MC_ACCEPT_EULA=true", "--mount", "type=bind,source=" + externaldatadir + "/minecraft-" + sha256(sess.email) + ",target=/data", "sheogorath/minecraft"], console.log("Started minecraft-") + sha256(sess.email));
 	  // res.send('Welcome to the BLOCK World, 2edgy4me.');
 	  res.redirect("/");
     }
@@ -131,7 +144,7 @@ app.post('/user/', function (req, res) {
 
   var email = req.body.email;
   var password = sha256(req.body.pw);
-  
+
   connection.query('SELECT * from users where email = ? and password = ?', [email, password], function(err, rows, fields) {
     if (!err)
       if(rows.length > 0)
@@ -182,7 +195,16 @@ app.post('/deleteuser/', function (req, res) {
             res.redirect('/');
           }
         });
-		// KILL MINECRAFT SERVER HERE!!!
+        function run_cmd(cmd, args, callBack ) {
+      	    var spawn = require('child_process').spawn;
+      	    var child = spawn(cmd, args);
+      	    var resp = "";
+
+      	    child.stdout.on('data', function (buffer) { resp += buffer.toString() });
+      	    child.stdout.on('end', function() { callBack (resp) });
+      	}
+        run_cmd("rm", [internaldatadir + "/minecraft-" + sha256(sess.email)]);
+		run_cmd("docker", ["service", "rm", "minecraft-" + sha256(sess.email)]
         res.redirect('/');
       }
     });
@@ -190,8 +212,5 @@ app.post('/deleteuser/', function (req, res) {
   else
   {
     res.send('You are not logged in dude.');
-  }  
+  }
 })
-
-
-
